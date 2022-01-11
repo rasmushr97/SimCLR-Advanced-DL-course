@@ -11,7 +11,7 @@ class SimCLR():
         self.use_wandb = use_wandb
 
         self.optimizer = optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-6)
-        self.criterion = NT_Xent()
+        self.criterion = NT_Xent(device=self.device)
 
     def train(self, dataloader, epochs=1):
         if self.use_wandb:
@@ -37,7 +37,6 @@ class SimCLR():
 
                     self.optimizer.step()
                     
-                    loss = 0.1
                     t.set_postfix(loss=loss)
                     t.update()
                     
