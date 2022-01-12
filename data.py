@@ -20,7 +20,7 @@ class PairDataset(Dataset):
         return aug1, aug2, label
 
 
-def create_cifar_train_loader():
+def create_cifar_train_loader(batch_size=128, num_workers=2):
     cifar10_train_transform = transforms.Compose([
         transforms.RandomResizedCrop(32),
         transforms.RandomHorizontalFlip(p=0.5),
@@ -39,7 +39,7 @@ def create_cifar_train_loader():
 
     trainset = PairDataset(trainset, cifar10_train_transform)
     
-    trainloader = DataLoader(trainset, batch_size=128, shuffle=True, num_workers=2)
+    trainloader = DataLoader(trainset, batch_size=batch_size, shuffle=True, num_workers=num_workers)
 
     return trainloader
 

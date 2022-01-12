@@ -2,7 +2,7 @@ from simclr import SimCLR
 from data import create_cifar_train_loader
 import torch
 import torch.nn as nn
-from models import Cifar10_SimCLR_model
+from models import Cifar10_SimCLR_Model
 
 def main():
     # load data
