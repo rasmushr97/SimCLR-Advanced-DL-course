@@ -22,8 +22,9 @@ class PairDataset(Dataset):
 
 def create_cifar_train_loader():
     cifar10_train_transform = transforms.Compose([
-        transforms.RandomResizedCrop(224),
+        transforms.RandomResizedCrop(32),
         transforms.RandomHorizontalFlip(p=0.5),
+        # TODO edit colorJitter
         transforms.RandomApply([transforms.ColorJitter(0.4, 0.4, 0.4, 0.1)], p=0.8),
         transforms.RandomGrayscale(p=0.2),
         transforms.ToTensor(),

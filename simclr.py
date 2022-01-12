@@ -4,7 +4,7 @@ from tqdm import tqdm
 import wandb
 
 class SimCLR():
-    def __init__(self, model, device='cpu', use_wandb=True):
+    def __init__(self, model, device='cpu', use_wandb=False):
         self.model = model
         self.device = device
         self.model.to(device)
