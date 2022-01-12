@@ -3,14 +3,13 @@ import torch.nn.functional as F
 import torch
 
 class NT_Xent(nn.Module):
-    def __init__(self, temperature=1.0, device='cpu'):
+    def __init__(self, temperature=0.5, device='cpu'):
         super(NT_Xent, self).__init__()
         self.tau = temperature
         self.device = device
 
     def forward(self, z1, z2):
         assert len(z1) == len(z2)
-
         N = 2 * len(z1)
 
         # Cosine similarity

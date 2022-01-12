@@ -4,14 +4,14 @@ from tqdm import tqdm
 import wandb
 
 class SimCLR():
-    def __init__(self, model, device='cpu', use_wandb=False):
+    def __init__(self, model, tau=0.5, device='cpu', use_wandb=False):
         self.model = model
         self.device = device
         self.model.to(device)
         self.use_wandb = use_wandb
 
         self.optimizer = optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-6)
-        self.criterion = NT_Xent(device=self.device)
+        self.criterion = NT_Xent(temperature=tau, device=self.device)
 
     def train(self, dataloader, epochs=1):
         if self.use_wandb:
