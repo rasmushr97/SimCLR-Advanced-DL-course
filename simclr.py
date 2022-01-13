@@ -2,13 +2,15 @@ from loss import NT_Xent
 import torch.optim as optim
 from tqdm import tqdm
 import wandb
+from collections import deque
 
 class SimCLR():
-    def __init__(self, model, tau=0.5, device='cpu', use_wandb=False):
+    def __init__(self, model, tau=0.5, device='cpu', use_wandb=False, log_iterval=10):
         self.model = model
         self.device = device
         self.model.to(device)
         self.use_wandb = use_wandb
+        self.log_iterval = log_iterval
 
         self.optimizer = optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-6)
         self.criterion = NT_Xent(temperature=tau, device=self.device)
@@ -21,7 +23,7 @@ class SimCLR():
         self.model.train()
 
         for epoch in range(epochs):
-
+            running_loss = deque(maxlen=20)
             with tqdm(total=len(dataloader)) as t:
                 t.set_description(f'Epoch: {epoch+1}/{epochs}')
                 for batch_idx, (images_v1, images_v2, _) in enumerate(dataloader):
@@ -37,10 +39,13 @@ class SimCLR():
 
                     self.optimizer.step()
                     
-                    t.set_postfix(loss=loss)
+                    running_loss.append(loss.item())
+                    loss_avg = sum(running_loss) / len(running_loss)
+                    t.set_postfix(loss=loss_avg)
                     t.update()
                     
-                    if batch_idx % 100 == 0 and self.use_wandb:
-                        wandb.log({"loss": loss})
+                    if batch_idx % self.log_iterval == 0 and self.use_wandb:
+                        use_wandb.log({"loss": loss})
+
 
 
