@@ -1,4 +1,5 @@
 from loss import NT_Xent
+import torch
 import torch.optim as optim
 from tqdm import tqdm
 import wandb
@@ -46,11 +47,13 @@ class SimCLR():
                     t.update()
                     
                     if batch_idx % self.log_iterval == 0 and self.use_wandb:
-                        use_wandb.log({"loss": loss})
+                        wandb.log({"loss": loss})
 
             if self.save_after_epoch:
                 torch.save(model, f'model-{epoch}.h5')
-                wandb.save(f'model-{epoch}.h5')
+
+                if self.use_wandb:
+                    wandb.save(f'model-{epoch}.h5')
 
 
 
