@@ -5,12 +5,13 @@ import wandb
 from collections import deque
 
 class SimCLR():
-    def __init__(self, model, tau=0.5, device='cpu', use_wandb=False, log_iterval=10):
+    def __init__(self, model, tau=0.5, device='cpu', use_wandb=False, log_iterval=10, save_after_epoch=False):
         self.model = model
         self.device = device
         self.model.to(device)
         self.use_wandb = use_wandb
         self.log_iterval = log_iterval
+        self.save_after_epoch = save_after_epoch
 
         self.optimizer = optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-6)
         self.criterion = NT_Xent(temperature=tau, device=self.device)
@@ -46,6 +47,10 @@ class SimCLR():
                     
                     if batch_idx % self.log_iterval == 0 and self.use_wandb:
                         use_wandb.log({"loss": loss})
+
+            if self.save_after_epoch:
+                torch.save(model, f'model-{epoch}.h5')
+                wandb.save(f'model-{epoch}.h5')
 
 
 
