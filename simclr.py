@@ -50,7 +50,7 @@ class SimCLR():
                         wandb.log({"loss": loss})
 
             if self.save_after_epoch:
-                torch.save(model, f'model-{epoch}.h5')
+                torch.save(self.model, f'model-{epoch}.h5')
 
                 if self.use_wandb:
                     wandb.save(f'model-{epoch}.h5')
