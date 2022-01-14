@@ -58,7 +58,7 @@ class Cifar10_Small(nn.Module):
             nn.ReLU(),
             nn.Linear(1024, 512),
             nn.ReLU(),
-            nn.Linear(512, 10))
+            nn.Linear(512, 128))
         
     def forward(self, xb):
         return self.network(xb)
@@ -94,7 +94,7 @@ class Cifar10_XS(nn.Module):
             nn.ReLU(),
             nn.Linear(512, 256),
             nn.ReLU(),
-            nn.Linear(256, 10))
+            nn.Linear(256, 128))
         
     def forward(self, xb):
         return self.network(xb)
