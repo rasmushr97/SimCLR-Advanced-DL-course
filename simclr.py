@@ -6,7 +6,7 @@ import wandb
 from collections import deque
 
 class SimCLR():
-    def __init__(self, model, tau=0.5, device='cpu', use_wandb=False, log_iterval=10, save_after_epoch=False):
+    def __init__(self, model, tau=0.5, model_name='model', device='cpu', use_wandb=False, log_iterval=10, save_after_epoch=False):
         self.model = model
         self.device = device
         self.model.to(device)
@@ -50,10 +50,10 @@ class SimCLR():
                         wandb.log({"loss": loss})
 
             if self.save_after_epoch:
-                torch.save(self.model, f'model-{epoch}.h5')
+                torch.save(self.model, f'{model_name}-{epoch}.h5')
 
                 if self.use_wandb:
-                    wandb.save(f'model-{epoch}.h5')
+                    wandb.save(f'{model_name}-{epoch}.h5')
 
 
 
