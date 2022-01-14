@@ -14,6 +14,7 @@ class SimCLR():
         self.use_wandb = use_wandb
         self.log_iterval = log_iterval
         self.save_after_epoch = save_after_epoch
+        self.model_name = model_name
 
         if use_lars:
             base_optimizer = optim.SGD(model.parameters(), lr=0.6)
@@ -56,10 +57,10 @@ class SimCLR():
                         wandb.log({"loss": loss})
 
             if self.save_after_epoch:
-                torch.save(self.model, f'{model_name}-{epoch}.h5')
+                torch.save(self.model, f'{self.model_name}-{epoch}.h5')
 
                 if self.use_wandb:
-                    wandb.save(f'{model_name}-{epoch}.h5')
+                    wandb.save(f'{self.model_name}-{epoch}.h5')
 
 
 
