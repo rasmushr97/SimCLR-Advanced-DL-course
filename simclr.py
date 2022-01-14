@@ -4,9 +4,10 @@ import torch.optim as optim
 from tqdm import tqdm
 import wandb
 from collections import deque
+from torchlars import LARS
 
 class SimCLR():
-    def __init__(self, model, tau=0.5, model_name='model', device='cpu', use_wandb=False, log_iterval=10, save_after_epoch=False):
+    def __init__(self, model, tau=0.5, model_name='model', use_lars=True, device='cpu', use_wandb=False, log_iterval=10, save_after_epoch=False):
         self.model = model
         self.device = device
         self.model.to(device)
@@ -14,7 +15,12 @@ class SimCLR():
         self.log_iterval = log_iterval
         self.save_after_epoch = save_after_epoch
 
-        self.optimizer = optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-6)
+        if use_lars:
+            base_optimizer = optim.SGD(model.parameters(), lr=0.6)
+            self.optimizer = LARS(optimizer=base_optimizer, eps=1e-8, trust_coef=0.001)
+        else:
+            self.optimizer = optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-6)
+
         self.criterion = NT_Xent(temperature=tau, device=self.device)
 
     def train(self, dataloader, epochs=1):
