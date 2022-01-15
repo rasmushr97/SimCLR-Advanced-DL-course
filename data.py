@@ -24,7 +24,6 @@ def create_cifar_train_loader(batch_size=128, num_workers=2):
     cifar10_train_transform = transforms.Compose([
         transforms.RandomResizedCrop(32),
         transforms.RandomHorizontalFlip(p=0.5),
-        # TODO edit colorJitter
         transforms.RandomApply([transforms.ColorJitter(0.4, 0.4, 0.4, 0.1)], p=0.8),
         transforms.RandomGrayscale(p=0.2),
         transforms.ToTensor(),
