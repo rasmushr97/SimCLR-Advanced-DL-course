@@ -7,7 +7,7 @@ from collections import deque
 from torchlars import LARS
 
 class SimCLR():
-    def __init__(self, model, tau=0.5, model_name='model', use_lars=True, device='cpu', use_wandb=False, log_iterval=10, save_after_epoch=False):
+    def __init__(self, model, tau=0.5, model_name='model', use_lars=False, device='cpu', use_wandb=False, log_iterval=10, save_after_epoch=False):
         self.model = model
         self.device = device
         self.model.to(device)
