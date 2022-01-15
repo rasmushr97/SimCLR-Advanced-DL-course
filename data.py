@@ -44,7 +44,7 @@ def create_cifar_train_loader(batch_size=128, num_workers=2):
     return trainloader
 
 
-def create_cifar_test_loader():
+def create_cifar_test_loader(batch_size=128, num_workers=2):
     cifar10_test_transform = transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize([0.4914, 0.4822, 0.4465], [0.2023, 0.1994, 0.2010])])
@@ -52,6 +52,6 @@ def create_cifar_test_loader():
     testset = torchvision.datasets.CIFAR10(
         root='./data', train=False, download=True, transform=cifar10_test_transform)
 
-    testloader = DataLoader(testset, batch_size=100, shuffle=False, num_workers=2)
+    testloader = DataLoader(testset, batch_size=batch_size, shuffle=True, num_workers=num_workers)
 
     return testloader

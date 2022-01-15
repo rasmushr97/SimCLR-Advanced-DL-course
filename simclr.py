@@ -17,6 +17,7 @@ class SimCLR():
         self.model_name = model_name
 
         if use_lars:
+            # TODO: calculate learning rate from batch size
             base_optimizer = optim.SGD(model.parameters(), lr=0.6)
             self.optimizer = LARS(optimizer=base_optimizer, eps=1e-8, trust_coef=0.001)
         else:
