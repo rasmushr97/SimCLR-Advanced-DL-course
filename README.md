@@ -8,8 +8,9 @@ Simple Pytorch implementation of the SimCLR framework for training self-supervis
   
 To test the framework I created a small CNN model and pretrained it on CIFAR10. The figure below compares the results of Linear evaluation and fine-tuning the pretrained network against training from a random initialization.
 
+<p align="center">
 <img width="346" alt="image" class="center" src="https://user-images.githubusercontent.com/6470685/178928345-fc5c780f-13e8-4a89-8f65-eca629dcf663.png">
-
+<p>
 
 The Repo was made as part of a assignment where i wrote a report about the paper. 
 
